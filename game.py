@@ -66,3 +66,32 @@ class Game(Resource):
         conn.commit()
         conn.close()
         return {"message": "Game deleted"}
+
+    def put(self, id):
+        data = Game.parser.parse_args()
+        game = self.find_by_id(id)
+        updated_game = {"name": data["name"], "platform": data["platform"], "price": data["price"], "description": data["description"], "release_date": data["release_date"], "category": data["category"], "players": data["players"]}
+        if game is None:
+            try:
+                self.insert(updated_game)
+            except:
+                return {"message": "An error occurred inserting the game."}
+        else:
+            try:
+                self.update(updated_game)
+            except:
+                return {"message": "An error occurred inserting the game."}
+        return updated_game
+
+
+class GameList(Resource):
+    def get(self):
+        conn = sqlite3.connect('games.db')
+        cursor = conn.cursor()
+        query = "SELECT * FROM games"
+        result = cursor.execute(query)
+        games = []
+        for row in result:
+            games.append({"name": row[0], "platform": row[1], "price": row[2], "description": row[3], "release date": row[4], "category": row[5], "players": row[6]})
+        conn.close()
+        return {"games": games}
