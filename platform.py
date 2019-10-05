@@ -1,6 +1,5 @@
 import sqlite3
-from flask import Flask, request
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 
 class Platform(Resource):
     def get(self, name):
