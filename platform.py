@@ -51,12 +51,12 @@ class Platform(Resource):
 
     def post(self, name):
         data = Platform.parser.parse_args()
-        game = {"name": name, "price_first_released": data["price_first_released"], "release_date": data["release_date"]}
+        platform = {"name": name, "price_first_released": data["price_first_released"], "release_date": data["release_date"]}
         try:
-            self.insert(game)
+            self.insert(platform)
         except:
             return {"message": "An error occurred inserting the platform."}, 500
-        return game, 201
+        return platform, 201
 
     def delete(self, id):
         conn = sqlite3.connect('games.db')
@@ -69,9 +69,9 @@ class Platform(Resource):
 
     def put(self, id):
         data = Platform.parser.parse_args()
-        game = self.find_by_id(id)
+        platform = self.find_by_id(id)
         updated_platform = {"name": data['name'], "price_first_released": data["price_first_released"], "release_date": data["release_date"]}
-        if game is None:
+        if platform is None:
             try:
                 self.insert(updated_platform)
             except:
