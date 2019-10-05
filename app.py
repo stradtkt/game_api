@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from game import *
+from platform import *
 import db
 
 app = Flask(__name__)
